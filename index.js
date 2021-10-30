@@ -52,12 +52,6 @@ async function run() {
             res.send(orders);
         });
 
-        // Get orders
-        /* app.get('/myOrders', async (req, res) => {
-            const email = req.query.email;
-            const order = await orderCollection.filter()
-        }) */
-
     }
     finally {
         // await client.close();
