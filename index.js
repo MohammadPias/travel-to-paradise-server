@@ -17,6 +17,7 @@ async function run() {
         await client.connect();
         const database = client.db('travel-to-paradise');
         const serviceCollection = database.collection('services');
+        const orderCollection = database.collection('orders');
 
         // Get api
         app.get('/services', async (req, res) => {
@@ -26,13 +27,22 @@ async function run() {
             res.send(services);
         });
 
-        // Post Api services
+        // Post services
 
         app.post('/services', async (req, res) => {
             const service = req.body;
             const result = await serviceCollection.insertOne(service);
             res.json(result);
         });
+
+        // Post orders
+
+        app.post('/myOrders', async (req, res) => {
+            const addOrder = req.body;
+            console.log(addOrder);
+            const order = await orderCollection.insertOne(addOrder);
+            res.json(addOrder)
+        })
 
     }
     finally {
