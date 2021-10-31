@@ -48,13 +48,9 @@ async function run() {
         // Get api
         app.get('/myOrders', async (req, res) => {
             const cursor = orderCollection.find({});
-            const count = await cursor.count();
             const orders = await cursor.toArray();
 
-            res.send({
-                count,
-                orders
-            });
+            res.send(orders);
         });
 
         // Delete Order
@@ -63,6 +59,24 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const result = await orderCollection.deleteOne(query);
             console.log(result)
+            res.send(result)
+        })
+
+        // Update order status
+        app.put('/myOrders/:id', async (req, res) => {
+            const id = req.params.id;
+
+            const query = { _id: ObjectId(id) };
+
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    status: 'approved'
+                },
+            };
+            const result = await orderCollection.updateOne(query, updateDoc, options);
+            console.log(result);
+
             res.send(result)
         })
 
