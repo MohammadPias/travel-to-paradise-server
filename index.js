@@ -19,6 +19,7 @@ async function run() {
         const database = client.db('travel-to-paradise');
         const serviceCollection = database.collection('services');
         const orderCollection = database.collection('orders');
+        const featureCollection = database.collection('features');
 
         // Get api
         app.get('/services', async (req, res) => {
@@ -78,6 +79,14 @@ async function run() {
             console.log(result);
 
             res.send(result)
+        });
+
+        // get features api
+        app.get('/features', async (req, res) => {
+            const cursor = featureCollection.find({});
+            const features = await cursor.toArray();
+
+            res.send(features)
         })
 
     }
